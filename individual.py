@@ -8,15 +8,11 @@ class Individual:
         self._create_randomized_paths(goals)
 
     def _create_randomized_paths(self, goals):
-
-        print("START")
         for goal in goals:
             simplest_path = self._create_simplest_path(goal)
             self.paths.append(simplest_path)
-        for i in range(1000):
+        for i in range(500):
             singleStepMutator.mutate(self.paths)
-            print(i)
-        print(self.paths)
 
     def _create_simplest_path(self, goal):
         start = goal[0]
