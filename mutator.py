@@ -1,22 +1,20 @@
-from direction import Direction
-from direction import is_opposite_direction
-from direction import get_opposite_direction
+import direction as dirs
 import random
 
 MUTATE_CHANCE = 1.0
 
 
 def random_mute_direction(direction):
-    if direction == Direction.UP or direction == Direction.DOWN:
+    if direction == dirs.Direction.UP or direction == dirs.Direction.DOWN:
         if random.random() < 0.5:
-            return Direction.LEFT
+            return dirs.Direction.LEFT
         else:
-            return Direction.RIGHT
+            return dirs.Direction.RIGHT
     else:
         if random.random() < 0.5:
-            return Direction.UP
+            return dirs.Direction.UP
         else:
-            return Direction.DOWN
+            return dirs.Direction.DOWN
 
 
 class SingleStepMutator:
@@ -39,42 +37,78 @@ class SingleStepMutator:
             mutation_start = random.randint(0, step_len - 2)
             mutation_end = random.randint(mutation_start + 1, step_len)
         direction_to_mutate = random_mute_direction(step_dir)
-
-
-        print("PRZED: ", path)
-        print("Dotyczy step_num: ",step_num)
-        print('')
         self._modify_step(step_num, path, mutation_start, mutation_end, direction_to_mutate)
-        print("PO: ", path)
-        print('')
+
 
     def _modify_step(self, step_num, path, mut_start, mut_end, dir):
-        print('mut_start: ', mut_start)
-        print('mut_end: ', mut_end)
-        print('mut_dir: ', dir)
         step_len = path[step_num][1]
         step_dir = path[step_num][0]
         del path[step_num]
         if mut_start != 0:
             path.insert(step_num, (step_dir, mut_start))
             step_num = step_num + 1
-        print("PATH1: ", path)
         if mut_end != step_len:
             path.insert(step_num+1, (step_dir, step_len - mut_end))
-        print("PATH2: ", path)
-        print("PATH3: ", path)
         path.insert(step_num, (step_dir, mut_end - mut_start))
-        print("PATH4: ", path)
 
         path.insert(step_num, (dir, 1))
-        print("PATH5: ", path)
         step_num = step_num + 1
-        path.insert(step_num + 1, (get_opposite_direction(dir), 1))
-        print("PATH6: ", path)
+        path.insert(step_num + 1, (dirs.get_opposite_turn(dir), 1))
+        self._normalize(path, step_num)
 
+    def _normalize(self, path, step_num):
+        self._normalize_behind(path, step_num)
+        self._normalize_before(path, step_num)
+        self._check_normalization(path)
 
+    def _normalize_before(self, path, step_num):
+        if step_num >= 2:
+            step_before_1 = step_num - 1
+            step_before_2 = step_num - 2
+            if dirs.is_same_way(path[step_before_2][0], path[step_before_1][0]):
+                if dirs.is_opposite_turn(path[step_before_2][0], path[step_before_1][0]):
+                    if path[step_before_2][1] > path[step_before_1][1]:
+                        path[step_before_2] = (path[step_before_2][0], path[step_before_2][1] - path[step_before_1][1])
+                        del path[step_before_1]
+                    elif path[step_before_2][1] < path[step_before_1][1]:
+                        path[step_before_2] = (path[step_before_1][0], path[step_before_1][1] - path[step_before_2][1])
+                        del path[step_before_1]
+                    else: #Direction are in opposite turn but equal
+                        del path[step_before_1]
+                        del path[step_before_2]
+                else:
+                    path[step_before_2] = (path[step_before_2][0], path[step_before_1][1] + path[step_before_2][1])
+                    del path[step_before_1]
 
+    def _normalize_behind(self, path, step_num):
+        if step_num  <= len(path) - 3:
+            step_behind_1 = step_num + 1
+            step_behind_2 = step_num + 2
+            if dirs.is_same_way(path[step_behind_2][0], path[step_behind_1][0]):
+                if dirs.is_opposite_turn(path[step_behind_2][0], path[step_behind_1][0]):
+                    if path[step_behind_2][1] > path[step_behind_1][1]:
+                        path[step_behind_2] = (path[step_behind_2][0], path[step_behind_2][1] - path[step_behind_1][1])
+                        del path[step_behind_1]
+                    elif path[step_behind_2][1] < path[step_behind_1][1]:
+                        path[step_behind_2] = (path[step_behind_1][0], path[step_behind_1][1] - path[step_behind_2][1])
+                        del path[step_behind_1]
+                    else: #Direction are in opposite turn but equal
+                        del path[step_behind_2]
+                        del path[step_behind_1]
+                else:
+                    path[step_behind_2] = (path[step_behind_2][0], path[step_behind_1][1] + path[step_behind_2][1])
+                    del path[step_behind_1]
 
+    def _check_normalization(self, path):
+        for v, w, i in zip(path[:-1], path[1:], range(len(path))):
+            if dirs.is_same_way(v[0], w[0]):
+                if i == 0:
+                    self._normalize_before(path, 2)
+                    self._check_normalization(path)
+                else:
+                    self._normalize_behind(path, i-1)
+                    self._check_normalization(path)
+                break
 
 
 

@@ -1,22 +1,22 @@
 from enum import Enum
 
 class Direction(Enum):
-    UP = 0
-    DOWN = 1
-    RIGHT = 2
-    LEFT = 3
+    UP = 1
+    DOWN = 10
+    RIGHT = 100
+    LEFT = 1000
 
-def is_opposite_direction(dir1, dir2):
-    if dir1 == Direction.UP and dir2 == Direction.DOWN:
-        return True
-    if dir1 == Direction.DOWN and dir2 == Direction.UP:
-        return True
-    if dir1 == Direction.LEFT and dir2 == Direction.RIGHT:
-        return True
-    if dir1 == Direction.RIGHT and dir2 == Direction.LEFT:
+def is_same_way(dir1, dir2):
+    dir_sum = dir1.value + dir2.value
+    if dir_sum in [2, 11, 20, 200, 1100, 2000]:
         return True
 
-def get_opposite_direction(dir):
+def is_opposite_turn(dir1, dir2):
+    dir_sum = dir1.value + dir2.value
+    if dir_sum in [11, 1100]:
+        return True
+
+def get_opposite_turn(dir):
     if dir == Direction.UP:
         return Direction.DOWN
     if dir == Direction.DOWN:

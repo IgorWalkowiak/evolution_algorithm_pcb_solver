@@ -11,12 +11,12 @@ class Individual:
 
         print("START")
         for goal in goals:
-
-            print("For goal", goal)
             simplest_path = self._create_simplest_path(goal)
             self.paths.append(simplest_path)
-        for _ in range(1000):
+        for i in range(1000):
             singleStepMutator.mutate(self.paths)
+            print(i)
+        print(self.paths)
 
     def _create_simplest_path(self, goal):
         start = goal[0]
