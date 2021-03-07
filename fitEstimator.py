@@ -4,10 +4,13 @@ import collections
 class fitEstimator:
     def estimate_fit_deviation(self, individual, goals, board_x, board_y):
         steps = self._create_steps(individual, goals)
+        print(steps)
         cross_amount = self._calc_cross_amount(steps)
         steps_amount = self._calc_steps_amount(steps)
+        outer_steps_amount = self._calc_outer_steps_amount(steps, board_x, board_y)
         print("Cross amount = ", cross_amount)
         print("Steps amount = ", steps_amount)
+        print("Outer steps amount = ", outer_steps_amount)
 
     def _create_steps(self, individual, goals):
         steps = []
@@ -51,6 +54,14 @@ class fitEstimator:
 
     def _calc_steps_amount(self, steps):
         return len(steps)
+
+    def _calc_outer_steps_amount(self, steps, board_x, board_y):
+        outer_steps_amount = 0
+        for step in steps:
+            if step[0] < 0 or step[0] > board_x or step[1] < 0 or step[1] > board_y:
+                outer_steps_amount = outer_steps_amount + 1
+
+        return outer_steps_amount
 
 
 
