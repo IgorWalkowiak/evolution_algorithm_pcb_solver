@@ -1,18 +1,19 @@
 from direction import Direction
-from mutator import singleStepMutator
+import mutator
 
 
 class Individual:
-    def __init__(self, goals):
+    def __init__(self, goals, startup_randomization):
         self.paths = []
-        self._create_randomized_paths(goals)
+        self._create_randomized_paths(goals, startup_randomization)
 
-    def _create_randomized_paths(self, goals):
+
+    def _create_randomized_paths(self, goals, startup_randomization):
         for goal in goals:
             simplest_path = self._create_simplest_path(goal)
             self.paths.append(simplest_path)
-        for i in range(500):
-            singleStepMutator.mutate(self.paths)
+        for i in range(startup_randomization):
+            mutator.singleStepMutator.mutate(self.paths)
 
     def _create_simplest_path(self, goal):
         start = goal[0]

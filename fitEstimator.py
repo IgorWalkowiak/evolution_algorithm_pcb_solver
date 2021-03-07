@@ -1,7 +1,12 @@
 from direction import Direction
 import collections
 
-class fitEstimator:
+class FitEstimator:
+    def __init__(self, cross_weight, step_weight, outer_step_weight):
+        self.cross_weight = cross_weight
+        self.step_weight = step_weight
+        self.outer_step_weight = outer_step_weight
+
     def estimate_fit_deviation(self, individual, goals, board_x, board_y):
         steps = self._create_steps(individual, goals)
         print(steps)
@@ -11,6 +16,8 @@ class fitEstimator:
         print("Cross amount = ", cross_amount)
         print("Steps amount = ", steps_amount)
         print("Outer steps amount = ", outer_steps_amount)
+        deviation = cross_amount*self.cross_weight + steps_amount*self.step_weight + outer_steps_amount*self.outer_step_weight
+        return deviation
 
     def _create_steps(self, individual, goals):
         steps = []
@@ -58,12 +65,7 @@ class fitEstimator:
     def _calc_outer_steps_amount(self, steps, board_x, board_y):
         outer_steps_amount = 0
         for step in steps:
-            if step[0] < 0 or step[0] > board_x or step[1] < 0 or step[1] > board_y:
+            if step[0] < 0 or step[0] >= board_x or step[1] < 0 or step[1] >= board_y:
                 outer_steps_amount = outer_steps_amount + 1
 
         return outer_steps_amount
-
-
-
-
-estimator = fitEstimator()

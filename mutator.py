@@ -39,7 +39,6 @@ class SingleStepMutator:
         direction_to_mutate = random_mute_direction(step_dir)
         self._modify_step(step_num, path, mutation_start, mutation_end, direction_to_mutate)
 
-
     def _modify_step(self, step_num, path, mut_start, mut_end, dir):
         step_len = path[step_num][1]
         step_dir = path[step_num][0]
@@ -109,8 +108,6 @@ class SingleStepMutator:
                     self._normalize_behind(path, i-1)
                     self._check_normalization(path)
                 break
-
-
 
 
 singleStepMutator = SingleStepMutator()
