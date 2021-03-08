@@ -10,9 +10,8 @@ class GeneticSolver():
 
     def solve(self, problem):
         for _ in range(self._population_number):
-            self._population.append(Individual(problem.get_goals(), 1000000))
+            self._population.append(Individual(problem.get_goals(), problem.board_x, problem.board_y, 2))
 
         for individual in self._population:
             deviation = self.estimator.estimate_fit_deviation(individual, problem.get_goals(), problem.board_x, problem.board_y)
             print(deviation)
-
