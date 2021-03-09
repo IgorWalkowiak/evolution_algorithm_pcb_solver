@@ -9,13 +9,13 @@ class FitEstimator:
 
     def estimate_fit_deviation(self, individual, goals, board_x, board_y):
         steps = self._create_steps(individual, goals)
-        print(steps)
         cross_amount = self._calc_cross_amount(steps)
         steps_amount = self._calc_steps_amount(steps)
         outer_steps_amount = self._calc_outer_steps_amount(steps, board_x, board_y)
-        print("Cross amount = ", cross_amount)
-        print("Steps amount = ", steps_amount)
-        print("Outer steps amount = ", outer_steps_amount)
+        #DEBUG _ FIT PARAMETERS ACCESS
+        #print("Cross amount = ", cross_amount)
+        #print("Steps amount = ", steps_amount)
+        #print("Outer steps amount = ", outer_steps_amount)
         deviation = cross_amount*self.cross_weight + steps_amount*self.step_weight + outer_steps_amount*self.outer_step_weight
         return deviation
 

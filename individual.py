@@ -23,7 +23,7 @@ class Individual:
         start = goal[0]
         finish = goal[1]
         #DEBUG _ START AND FINISH ACCESS
-        print("Start: ",start," Finish: ", finish)
+        #print("Start: ",start," Finish: ", finish)
         corners = self._create_corners(corners_amount, start, finish, board_x, board_y)
         return self._create_path_from_corners(corners)
 
@@ -55,9 +55,9 @@ class Individual:
                 second_step = (Direction.DOWN, finish[1] - start[1])
                 path.append(second_step)
         #DEBUG _ PATH AND CORNERS ACCESS
-        print(corners)
-        print(path)
-        print("_____")
+        #print(corners)
+        #print(path)
+        #print("_____")
         return path
 
 
