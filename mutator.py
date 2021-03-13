@@ -1,7 +1,7 @@
 import direction as dirs
 import random
 
-MUTATE_CHANCE = 1.0
+MUTATE_CHANCE = 0.1
 
 
 def random_mute_direction(direction):
