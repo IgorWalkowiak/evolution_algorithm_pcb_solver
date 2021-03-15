@@ -1,0 +1,3 @@
+import tests.mutatorTest
+import tests.selectionsTest
+import tests.uniformCrossoverTest
