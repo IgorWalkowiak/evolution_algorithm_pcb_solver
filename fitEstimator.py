@@ -82,9 +82,10 @@ class FitEstimator:
     def _calc_cross_amount(self, steps):
         cross_amount = 0
         occurrences = collections.Counter(steps)
-        for occurence in occurrences.values():
-            if occurence >= 2:          # to check if better "add blindly" or check if >=2 before.
+        for step, occurence in occurrences.items():
+            if occurence >= 2:
                 cross_amount = cross_amount + occurence - 1
+                #print(step, occurence)
         return cross_amount
 
     def _calc_steps_amount(self, steps):

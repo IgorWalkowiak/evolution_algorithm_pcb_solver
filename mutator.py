@@ -16,9 +16,9 @@ def random_mute_direction(direction):
 
 
 class StepMutator:
-    def __init__(self, mutate_chance, max_mutate_lenght):
+    def __init__(self, mutate_chance, max_mutate_length):
         self._mutate_chance = mutate_chance
-        self._max_mutate_lenght = max_mutate_lenght
+        self._max_mutate_length = max_mutate_length
 
     def mutate(self, paths):
         if random.random() <= self._mutate_chance:
@@ -51,10 +51,10 @@ class StepMutator:
         if mut_end != step_len:
             path.insert(step_num+1, (step_dir, step_len - mut_end))
         path.insert(step_num, (step_dir, mut_end - mut_start))
-        lenght = random.randint(1, self._max_mutate_lenght)
-        path.insert(step_num, (dir, lenght))
+        length = random.randint(1, self._max_mutate_length)
+        path.insert(step_num, (dir, length))
         step_num = step_num + 1
-        path.insert(step_num + 1, (dirs.get_opposite_turn(dir), lenght))
+        path.insert(step_num + 1, (dirs.get_opposite_turn(dir), length))
         self._normalize(path, step_num)
 
     def _normalize(self, path, step_num):
