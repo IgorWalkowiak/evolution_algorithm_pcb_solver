@@ -2,8 +2,7 @@ import random
 from operator import itemgetter
 
 class RouletteSelection:
-    @staticmethod
-    def select(population, fit_deviation, selected_amount):
+    def select(self, population, fit_deviation, selected_amount):
         x = sum(fit_deviation)
         y = len(population) - 1 # as I try to minimalise es evaluation function I need some probability stuf
         roulett_chance = [(1-(deviation/x))/y for deviation in fit_deviation]
@@ -20,15 +19,20 @@ class RouletteSelection:
 
 
 class TournamentSelection:
-    TOURNAMENT_SIZE = 4
-    @staticmethod
-    def select(population, fit_deviation, selected_amount):
+    def __init__(self, tournament_size_ratio):
+        self._tournament_size_ratio = tournament_size_ratio
+
+    def select(self, population, fit_deviation, selected_amount):
         population_deviation = list(zip(population, fit_deviation))
         winners = []
-        while len(winners) != selected_amount:
-            for_tournament = random.sample(population_deviation, k=TournamentSelection.TOURNAMENT_SIZE)
-            #print(for_tournament)
-            winners.append(min(for_tournament, key=itemgetter(1))[0])
+        try:
+            while len(winners) != selected_amount:
+                for_tournament = random.sample(population_deviation, k=int(len(population_deviation)*self._tournament_size_ratio))
+                winner = min(for_tournament, key=itemgetter(1))
+                population_deviation.remove(winner)
+                winners.append(winner[0])
+        except:
+            raise Exception("Tournament error. Probably wrong turnament settings")
         return winners
 
 
