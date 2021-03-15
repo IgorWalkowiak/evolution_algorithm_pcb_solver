@@ -1,0 +1,23 @@
+Used parameters:
+    ### SETTINGS ###
+    MAX_ATTEMPTS = 100000
+
+    CROSSING_ERROR_WEIGHT = 1.0
+    STEP_ERROR_WEIGHT = 0.0001
+    OUTER_STEP_ERROR_WEIGHT =5.0
+
+    POPULATION_SIZE = 500
+    PARENTS_POPULATION_RATIO = 0.5
+    TOURNAMENT_SIZE_RATIO = 0.1
+    #Good PARENTS/TOURNAMENT ration -> (0.4/0.5)
+
+    CROSSOVER_CHANCE = 0.1
+
+    MUTATE_CHANCE = 0.9
+    MUTATE_MAX_LENGHT = 2
+    ### SETTINGS ###
+
+
+best= 1.02 , avg= 3.86 , worst= 19.02
+
+1.02 means that there was only one cross that algorith couldn't solve :c
